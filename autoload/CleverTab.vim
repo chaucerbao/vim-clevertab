@@ -1,16 +1,14 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
-" Indent if we're at the beginning of a line. Else, do completion
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Indent if we're at the beginning of a line. Otherwise, do completion
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! CleverTab#Complete(type)
-  "echom "type: " . a:type
-
   if a:type == 'start'
     if has("autocmd")
       augroup CleverTabAu
-        autocmd CursorMovedI *  if pumvisible() == 0 && g:CleverTab#autocmd_set|let g:CleverTab#autocmd_set = 0|pclose|call CleverTab#ClearAutocmds()|endif
-        autocmd InsertLeave *  if pumvisible() == 0 && g:CleverTab#autocmd_set|let g:CleverTab#autocmd_set = 0|pclose|call CleverTab#ClearAutocmds()|endif
+        autocmd CursorMovedI * if pumvisible() == 0 && g:CleverTab#autocmd_set | let g:CleverTab#autocmd_set = 0 | pclose | call CleverTab#ClearAutocmds() | endif
+        autocmd InsertLeave * if pumvisible() == 0 && g:CleverTab#autocmd_set | let g:CleverTab#autocmd_set = 0 | pclose | call CleverTab#ClearAutocmds() | endif
       augroup END
     endif
     if !exists("g:CleverTab#next_step_direction")
@@ -24,24 +22,23 @@ function! CleverTab#Complete(type)
     let g:CleverTab#stop=0
     return ""
   endif
+
   let g:CleverTab#cursor_moved=g:CleverTab#last_cursor_col!=virtcol('.')
 
-
   if a:type == 'tab' && !g:CleverTab#stop
-    if strpart( getline('.'), 0, col('.')-1 ) !~ '\k' " =~ '^\s*$'
+    if strpart( getline('.'), 0, col('.')-1 ) !~ '\k'
       let g:CleverTab#stop=1
       echom "Regular Tab"
       let g:CleverTab#next_step_direction="0"
-      return "\<TAB>"
+      return "\<Tab>"
     endif
-
 
   elseif a:type == 'omni' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if &omnifunc != ''
       echom "Omni Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
-      return "\<C-X>\<C-O>"
+      return "\<C-x>\<C-o>"
     endif
 
   elseif a:type == 'user' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
@@ -49,20 +46,20 @@ function! CleverTab#Complete(type)
       echom "User Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
-      return "\<C-X>\<C-U>"
+      return "\<C-x>\<C-u>"
     endif
 
   elseif a:type == 'keyword' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom "Keyword Complete"
     let g:CleverTab#next_step_direction="P"
     let g:CleverTab#eat_next=1
-    return "\<C-P>"
+    return "\<C-p>"
 
   elseif a:type == 'dictionary' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom "Dictionary Complete"
     let g:CleverTab#next_step_direction="P"
     let g:CleverTab#eat_next=1
-    return "\<C-X>\<C-K>"
+    return "\<C-x>\<C-k>"
 
   elseif a:type == 'neocomplete' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom "NeoComplete"
@@ -90,13 +87,11 @@ function! CleverTab#Complete(type)
     endif
     return ""
 
-
   elseif a:type == "forcedtab" && !g:CleverTab#stop
     echom "Forcedtab"
     let g:CleverTab#next_step_direction="0"
     let g:CleverTab#stop=1
     return "\<Tab>"
-
 
   elseif a:type == "stop" || a:type == "next"
     if g:CleverTab#stop || g:CleverTab#eat_next==1
@@ -105,57 +100,56 @@ function! CleverTab#Complete(type)
       return ""
     endif
     if g:CleverTab#next_step_direction=="P"
-      return "\<C-P>"
+      return "\<C-p>"
     elseif g:CleverTab#next_step_direction=="N"
-      return "\<C-N>"
+      return "\<C-n>"
     endif
-
 
   elseif a:type == "prev"
     if g:CleverTab#next_step_direction=="P"
-      return "\<C-N>"
+      return "\<C-n>"
     elseif g:CleverTab#next_step_direction=="N"
-      return "\<C-P>"
+      return "\<C-p>"
     endif
   endif
-
 
   return ""
 endfunction
 
+" Presets
 function! CleverTab#OmniFirst()
-  inoremap <silent><tab> <c-r>=CleverTab#Complete('start')<cr>
-                        \<c-r>=CleverTab#Complete('tab')<cr>
-                        \<c-r>=CleverTab#Complete('ultisnips')<cr>
-                        \<c-r>=CleverTab#Complete('omni')<cr>
-                        \<c-r>=CleverTab#Complete('keyword')<cr>
-                        \<c-r>=CleverTab#Complete('user')<cr>
-                        \<c-r>=CleverTab#Complete('stop')<cr>
-  inoremap <silent><s-tab> <c-r>=CleverTab#Complete('prev')<cr>
+  inoremap <silent><Tab> <C-r>=CleverTab#Complete('start')<CR>
+    \<C-r>=CleverTab#Complete('tab')<CR>
+    \<C-r>=CleverTab#Complete('ultisnips')<CR>
+    \<C-r>=CleverTab#Complete('omni')<CR>
+    \<C-r>=CleverTab#Complete('keyword')<CR>
+    \<C-r>=CleverTab#Complete('user')<CR>
+    \<C-r>=CleverTab#Complete('stop')<CR>
+  inoremap <silent><S-Tab> <C-r>=CleverTab#Complete('prev')<CR>
 endfunction
 
 function! CleverTab#KeywordFirst()
-  inoremap <silent><tab> <c-r>=CleverTab#Complete('start')<cr>
-                        \<c-r>=CleverTab#Complete('tab')<cr>
-                        \<c-r>=CleverTab#Complete('ultisnips')<cr>
-                        \<c-r>=CleverTab#Complete('keyword')<cr>
-                        \<c-r>=CleverTab#Complete('user')<cr>
-                        \<c-r>=CleverTab#Complete('neocomplete')<cr>
-                        \<c-r>=CleverTab#Complete('omni')<cr>
-                        \<c-r>=CleverTab#Complete('stop')<cr>
-  inoremap <silent><s-tab> <c-r>=CleverTab#Complete('prev')<cr>
+  inoremap <silent><Tab> <C-r>=CleverTab#Complete('start')<CR>
+    \<C-r>=CleverTab#Complete('tab')<CR>
+    \<C-r>=CleverTab#Complete('ultisnips')<CR>
+    \<C-r>=CleverTab#Complete('keyword')<CR>
+    \<C-r>=CleverTab#Complete('user')<CR>
+    \<C-r>=CleverTab#Complete('neocomplete')<CR>
+    \<C-r>=CleverTab#Complete('omni')<CR>
+    \<C-r>=CleverTab#Complete('stop')<CR>
+  inoremap <silent><S-Tab> <C-r>=CleverTab#Complete('prev')<CR>
 endfunction
 
 function! CleverTab#NeoCompleteFirst()
-  inoremap <silent><tab> <c-r>=CleverTab#Complete('start')<cr>
-                        \<c-r>=CleverTab#Complete('tab')<cr>
-                        \<c-r>=CleverTab#Complete('ultisnips')<cr>
-                        \<c-r>=CleverTab#Complete('neocomplete')<cr>
-                        \<c-r>=CleverTab#Complete('keyword')<cr>
-                        \<c-r>=CleverTab#Complete('omni')<cr>
-                        \<c-r>=CleverTab#Complete('user')<cr>
-                        \<c-r>=CleverTab#Complete('stop')<cr>
-  inoremap <silent><s-tab> <c-r>=CleverTab#Complete('prev')<cr>
+  inoremap <silent><Tab> <C-r>=CleverTab#Complete('start')<CR>
+    \<C-r>=CleverTab#Complete('tab')<CR>
+    \<C-r>=CleverTab#Complete('ultisnips')<CR>
+    \<C-r>=CleverTab#Complete('neocomplete')<CR>
+    \<C-r>=CleverTab#Complete('keyword')<CR>
+    \<C-r>=CleverTab#Complete('omni')<CR>
+    \<C-r>=CleverTab#Complete('user')<CR>
+    \<C-r>=CleverTab#Complete('stop')<CR>
+  inoremap <silent><S-Tab> <C-r>=CleverTab#Complete('prev')<CR>
 endfunction
 
 function! CleverTab#ClearAutocmds()
