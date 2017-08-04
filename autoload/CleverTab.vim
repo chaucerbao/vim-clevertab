@@ -38,7 +38,7 @@ function! CleverTab#Complete(type)
       echom "Omni Complete"
       let g:CleverTab#next_step_direction="N"
       let g:CleverTab#eat_next=1
-      return "\<C-x>\<C-o>"
+      return "\<C-x>\<C-o>".CleverTab#Complete('next')
     endif
 
   elseif a:type == 'user' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
