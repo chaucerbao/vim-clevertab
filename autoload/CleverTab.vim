@@ -26,12 +26,18 @@ function! CleverTab#Complete(type)
   let g:CleverTab#cursor_moved=g:CleverTab#last_cursor_col!=virtcol('.')
 
   if a:type == 'tab' && !g:CleverTab#stop
-    if strpart( getline('.'), 0, col('.')-1 ) !~ '\k'
-      let g:CleverTab#stop=1
+    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
       echom 'Regular Tab'
       let g:CleverTab#next_step_direction='0'
+      let g:CleverTab#stop=1
       return "\<Tab>"
     endif
+
+  elseif a:type == 'tab!' && !g:CleverTab#stop
+    echom 'Forced Tab'
+    let g:CleverTab#next_step_direction='0'
+    let g:CleverTab#stop=1
+    return "\<Tab>"
 
   elseif a:type == 'omni' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if &omnifunc != ''
@@ -61,6 +67,12 @@ function! CleverTab#Complete(type)
     let g:CleverTab#eat_next=1
     return "\<C-x>\<C-k>"
 
+  elseif a:type == 'file' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
+    echom 'File Complete'
+    let g:CleverTab#next_step_direction='N'
+    let g:CleverTab#eat_next=1
+    return "\<C-x>\<C-f>".CleverTab#Complete('next')
+
   elseif a:type == 'neocomplete' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'NeoComplete'
     let g:CleverTab#next_step_direction='N'
@@ -86,12 +98,6 @@ function! CleverTab#Complete(type)
       return g:ulti_x
     endif
     return ''
-
-  elseif a:type == 'forcedtab' && !g:CleverTab#stop
-    echom 'Forcedtab'
-    let g:CleverTab#next_step_direction='0'
-    let g:CleverTab#stop=1
-    return "\<Tab>"
 
   elseif a:type == 'stop' || a:type == 'next'
     if g:CleverTab#stop || g:CleverTab#eat_next == 1
