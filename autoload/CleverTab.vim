@@ -52,20 +52,20 @@ function! CleverTab#Complete(type)
       echom 'User Complete'
       let g:CleverTab#next_step_direction='N'
       let g:CleverTab#eat_next=1
-      return "\<C-x>\<C-u>"
+      return "\<C-x>\<C-u>".CleverTab#Complete('next')
     endif
 
   elseif a:type == 'keyword' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'Keyword Complete'
-    let g:CleverTab#next_step_direction='P'
+    let g:CleverTab#next_step_direction='N'
     let g:CleverTab#eat_next=1
-    return "\<C-p>"
+    return "\<C-x>\<C-n>".CleverTab#Complete('next')
 
   elseif a:type == 'dictionary' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'Dictionary Complete'
-    let g:CleverTab#next_step_direction='P'
+    let g:CleverTab#next_step_direction='N'
     let g:CleverTab#eat_next=1
-    return "\<C-x>\<C-k>"
+    return "\<C-x>\<C-k>".CleverTab#Complete('next')
 
   elseif a:type == 'file' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'File Complete'
