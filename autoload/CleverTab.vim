@@ -99,6 +99,15 @@ function! CleverTab#Complete(type)
     endif
     return ''
 
+  elseif a:type == 'minisnip' && !g:CleverTab#cursor_moved && !g:CleverTab#stop
+    if minisnip#ShouldTrigger()
+      echom 'Minisnip'
+      let g:CleverTab#next_step_direction='0'
+      let g:CleverTab#stop=1
+      return "x\<bs>\<esc>:call \minisnip#Minisnip()\<cr>"
+    endif
+    return ''
+
   elseif a:type == 'stop' || a:type == 'next'
     if g:CleverTab#stop || g:CleverTab#eat_next == 1
       let g:CleverTab#stop=0
