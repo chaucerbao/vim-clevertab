@@ -135,10 +135,11 @@ endfunction
 function! CleverTab#OmniFirst()
   inoremap <silent><Tab> <C-r>=CleverTab#Complete('start')<CR>
     \<C-r>=CleverTab#Complete('tab')<CR>
-    \<C-r>=CleverTab#Complete('ultisnips')<CR>
-    \<C-r>=CleverTab#Complete('omni')<CR>
-    \<C-r>=CleverTab#Complete('keyword')<CR>
     \<C-r>=CleverTab#Complete('user')<CR>
+    \<C-r>=CleverTab#Complete('omni')<CR>
+    \<C-r>=CleverTab#Complete('file')<CR>
+    \<C-r>=CleverTab#Complete('keyword')<CR>
+    \<C-r>=CleverTab#Complete('dictionary')<CR>
     \<C-r>=CleverTab#Complete('stop')<CR>
   inoremap <silent><S-Tab> <C-r>=CleverTab#Complete('prev')<CR>
 endfunction
@@ -146,11 +147,11 @@ endfunction
 function! CleverTab#KeywordFirst()
   inoremap <silent><Tab> <C-r>=CleverTab#Complete('start')<CR>
     \<C-r>=CleverTab#Complete('tab')<CR>
-    \<C-r>=CleverTab#Complete('ultisnips')<CR>
-    \<C-r>=CleverTab#Complete('keyword')<CR>
     \<C-r>=CleverTab#Complete('user')<CR>
-    \<C-r>=CleverTab#Complete('neocomplete')<CR>
+    \<C-r>=CleverTab#Complete('keyword')<CR>
     \<C-r>=CleverTab#Complete('omni')<CR>
+    \<C-r>=CleverTab#Complete('file')<CR>
+    \<C-r>=CleverTab#Complete('dictionary')<CR>
     \<C-r>=CleverTab#Complete('stop')<CR>
   inoremap <silent><S-Tab> <C-r>=CleverTab#Complete('prev')<CR>
 endfunction
@@ -158,11 +159,12 @@ endfunction
 function! CleverTab#NeoCompleteFirst()
   inoremap <silent><Tab> <C-r>=CleverTab#Complete('start')<CR>
     \<C-r>=CleverTab#Complete('tab')<CR>
-    \<C-r>=CleverTab#Complete('ultisnips')<CR>
-    \<C-r>=CleverTab#Complete('neocomplete')<CR>
-    \<C-r>=CleverTab#Complete('keyword')<CR>
-    \<C-r>=CleverTab#Complete('omni')<CR>
     \<C-r>=CleverTab#Complete('user')<CR>
+    \<C-r>=CleverTab#Complete('neocomplete')<CR>
+    \<C-r>=CleverTab#Complete('omni')<CR>
+    \<C-r>=CleverTab#Complete('file')<CR>
+    \<C-r>=CleverTab#Complete('keyword')<CR>
+    \<C-r>=CleverTab#Complete('dictionary')<CR>
     \<C-r>=CleverTab#Complete('stop')<CR>
   inoremap <silent><S-Tab> <C-r>=CleverTab#Complete('prev')<CR>
 endfunction
