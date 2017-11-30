@@ -43,40 +43,34 @@ function! CleverTab#Complete(type)
     if &omnifunc != ''
       echom 'Omni Complete'
       let g:CleverTab#next_step_direction='N'
-      let g:CleverTab#eat_next=1
-      return "\<C-x>\<C-o>\<C-n>"
+      return "\<C-x>\<C-o>"
     endif
 
   elseif a:type == 'user' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if &completefunc != ''
       echom 'User Complete'
       let g:CleverTab#next_step_direction='N'
-      let g:CleverTab#eat_next=1
-      return "\<C-x>\<C-u>\<C-n>"
+      return "\<C-x>\<C-u>"
     endif
 
   elseif a:type == 'keyword' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'Keyword Complete'
     let g:CleverTab#next_step_direction='N'
-    let g:CleverTab#eat_next=1
-    return "\<C-x>\<C-n>\<C-n>"
+    return "\<C-x>\<C-n>"
 
   elseif a:type == 'dictionary' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'Dictionary Complete'
     let g:CleverTab#next_step_direction='N'
-    let g:CleverTab#eat_next=1
-    return "\<C-x>\<C-k>\<C-n>"
+    return "\<C-x>\<C-k>"
 
   elseif a:type == 'file' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'File Complete'
     let g:CleverTab#next_step_direction='N'
-    let g:CleverTab#eat_next=1
-    return "\<C-x>\<C-f>\<C-n>"
+    return "\<C-x>\<C-f>"
 
   elseif a:type == 'neocomplete' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'NeoComplete'
     let g:CleverTab#next_step_direction='N'
-    let g:CleverTab#eat_next=1
     return neocomplete#start_manual_complete()
 
   elseif a:type == 'neosnippet' && !g:CleverTab#cursor_moved && !g:CleverTab#stop
