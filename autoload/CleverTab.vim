@@ -98,7 +98,7 @@ function! CleverTab#Complete(type)
       echom 'Minisnip'
       let g:CleverTab#next_step_direction='0'
       let g:CleverTab#stop=1
-      return "x\<bs>\<esc>:call \minisnip#Minisnip()\<cr>"
+      return "x\<BS>\<Esc>:call \minisnip#Minisnip()\<CR>"
     endif
     return ''
 
