@@ -2,6 +2,7 @@
 " MULTIPURPOSE TAB KEY
 " Indent if we're at the beginning of a line. Otherwise, do completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let s:minisnip_init=0
 
 function! CleverTab#Complete(type)
   if a:type == 'start'
@@ -94,12 +95,14 @@ function! CleverTab#Complete(type)
     return ''
 
   elseif a:type == 'minisnip' && !g:CleverTab#cursor_moved && !g:CleverTab#stop
-    if minisnip#ShouldTrigger()
-      echom 'Minisnip'
-      let g:CleverTab#next_step_direction='0'
-      let g:CleverTab#stop=1
-      return "x\<BS>\<Esc>:call \minisnip#Minisnip()\<CR>"
+    if !s:minisnip_init
+      let g:minisnip_trigger=''
+      smap <unique> <Tab> <Plug>Minisnip
+      let s:minisnip_init=1
     endif
+    echom 'Minisnip'
+    let g:CleverTab#next_step_direction='0'
+    call feedkeys("\<Plug>Minisnip")
     return ''
 
   elseif a:type == 'stop' || a:type == 'next'
