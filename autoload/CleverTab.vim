@@ -94,7 +94,7 @@ function! CleverTab#Complete(type)
     endif
     return ''
 
-  elseif a:type == 'minisnip' && !g:CleverTab#cursor_moved && !g:CleverTab#stop
+  elseif a:type == 'minisnip' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if !s:minisnip_init
       let g:minisnip_trigger=''
       smap <unique> <Tab> <Plug>Minisnip
