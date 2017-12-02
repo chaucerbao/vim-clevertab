@@ -56,7 +56,7 @@ function! CleverTab#Complete(type)
   elseif a:type == 'keyword' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'Keyword Complete'
     let g:CleverTab#next_step_direction='N'
-    return "\<C-x>\<C-n>"
+    return "x\<BS>\<C-n>"
 
   elseif a:type == 'dictionary' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     echom 'Dictionary Complete'
