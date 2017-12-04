@@ -102,7 +102,7 @@ function! CleverTab#Complete(type)
     endif
     echom 'Minisnip'
     let g:CleverTab#next_step_direction='0'
-    call feedkeys("\<Plug>Minisnip")
+    call feedkeys("\<Plug>Minisnip", 'i')
     return ''
 
   elseif a:type == 'stop' || a:type == 'next'
