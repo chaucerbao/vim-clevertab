@@ -97,12 +97,12 @@ function! CleverTab#Complete(type)
   elseif a:type == 'minisnip' && !pumvisible() && !g:CleverTab#cursor_moved && !g:CleverTab#stop
     if !s:minisnip_init
       let g:minisnip_trigger=''
-      smap <unique> <Tab> <Plug>Minisnip
+      smap <unique> <Tab> <Plug>(minisnip)
       let s:minisnip_init=1
     endif
     echom 'Minisnip'
     let g:CleverTab#next_step_direction='0'
-    call feedkeys("\<Plug>Minisnip", 'i')
+    call feedkeys("\<Plug>(minisnip)", 'i')
     return ''
 
   elseif a:type == 'stop' || a:type == 'next'
